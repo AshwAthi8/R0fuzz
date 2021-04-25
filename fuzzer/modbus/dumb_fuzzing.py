@@ -7,7 +7,6 @@ import logging
 
 HOST = '127.0.0.1'    
 dest_port = 5002       
-TANGO_DOWN = ''
 sock = None
 dumbflagset = 0;
 logging.basicConfig(filename='./fuzzer.log', filemode='a', level=logging.DEBUG, format='[%(asctime)s][%(levelname)s] %(message)s')
