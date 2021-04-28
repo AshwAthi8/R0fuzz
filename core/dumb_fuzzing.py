@@ -1,3 +1,5 @@
+from core.logger import get_logger
+
 import socket
 import sys
 from types import *
@@ -14,7 +16,7 @@ logging.basicConfig(filename='./fuzzer.log', filemode='a', level=logging.DEBUG, 
 def create_connection(dest_ip, port):
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    except socket.error, msg:
+    except socket.error as msg:
         sys.stderr.write("[ERROR] %s\n" % msg[1])
         sys.exit(1)
 
@@ -22,7 +24,7 @@ def create_connection(dest_ip, port):
     try:
         sock.settimeout(0.5)
         sock.connect((HOST, dest_port))
-    except socket.error, msg:
+    except socket.error as msg:
         logging.exception("Connection Failed!")
     else:
         logging.info("Connected to Server: %s" % dest_ip)
@@ -68,7 +70,7 @@ def dumb_fuzzing(dest_ip):
                   logging.info("Try to Reconnect...")
                 else:
                   logging.debug("Sent Packet: %s" % hexstr(ModbusPacket))
-                  print "Sent: %s" % hexstr(ModbusPacket)
+                  print("Sent: %s" % hexstr(ModbusPacket))
 
 
 dumb_fuzzing(HOST)
