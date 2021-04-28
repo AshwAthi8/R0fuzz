@@ -15,9 +15,45 @@ Finding security flaws effectively and efficiently in Industrial Control Systems
 - [5. Features](#5-features)
 - [6. TODO](#6-todo)
 
-## Working
-## Installation
-## Usage
-## Results
-## Features
-## TODO
+## 1. Working
+
+Work flow of the tool -
+
+
+## 2. Installation
+
+Here are the installation instructions for r0fuzz
+
+- Clone the repo
+ ```shell
+ git clone https://github.com/ais2397/sys2syz.git
+ cd sys2syz
+ ```
+- Install the python dependencies using 
+
+```shell
+pip3 install -r requirements.txt
+```
+
+## 3. Usage
+```shell
+usage: r0fuzz.py [-h] -s SEED -t TARGET [-d] [-v]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -s SEED, --seed SEED  sample input file
+  -t TARGET, --target TARGET
+                        target protocol
+  -d, --dumb            Dumb fuzz the target
+  -v, --verbosity       Log level
+```
+
+ To run sys2syz.py:
+```shell
+python3 r0fuzz.py -s <relative_path_of_seed_packet> -t <target_protocol> -vv
+```
+## 4. Results
+## 5. Features
+## 6. TODO
+
+
