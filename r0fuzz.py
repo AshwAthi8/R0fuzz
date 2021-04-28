@@ -7,8 +7,6 @@ from core.extract import Extractor
 import argparse
 import os
 import sys
-import string
-import sys
 from colorama import init
 from termcolor import cprint 
 from pyfiglet import figlet_format
