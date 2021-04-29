@@ -26,8 +26,8 @@ Here are the installation instructions for r0fuzz
 
 - Clone the repo
  ```shell
- git clone https://github.com/ais2397/sys2syz.git
- cd sys2syz
+ git clone https://github.com/ais2397/r0fuzz.git
+ cd r0fuzz
  ```
 - Install the python dependencies using 
 
@@ -48,7 +48,7 @@ optional arguments:
   -v, --verbosity       Log level
 ```
 
- To run sys2syz.py:
+ To run r0fuzz.py:
 ```shell
 python3 r0fuzz.py -s <relative_path_of_seed_packet> -t <target_protocol> -vv
 ```
