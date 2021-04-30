@@ -1,4 +1,4 @@
-from core.logger import get_logger
+#from core.logger import get_logger
 
 import socket
 import sys
@@ -8,7 +8,7 @@ import time
 import logging
 
 HOST = '127.0.0.1'    
-dest_port = 5002       
+dest_port = 5020       
 sock = None
 dumbflagset = 0;
 logging.basicConfig(filename='./fuzzer.log', filemode='a', level=logging.DEBUG, format='[%(asctime)s][%(levelname)s] %(message)s')
@@ -38,39 +38,38 @@ def hexstr(s):
 
 def dumb_fuzzing(dest_ip):
   sock = create_connection(dest_ip, dest_port)
-  unitID = 0
-  protoID = 0
-  transID = 0
-  lengthOfFunctionData = 1
-  prevField = ""
-  for functionCode in range(0,255):
-    for functionData6 in range(0, 255):
-      for functionData5 in range(0, 255):
-        for functionData4 in range(0, 255):
-          for functionData3 in range(0, 255):
-            for functionData2 in range(0, 255):
-              for functionData1 in range(0, 255):
-                functionDataField = prevField + struct.pack(">B", functionData1)
-                length = 2 + lengthOfFunctionData
-                ModbusPacket = struct.pack(">H", transID) + \
-                     struct.pack(">H", protoID) + \
-                     struct.pack(">H", length) + \
-                     struct.pack(">B", unitID) + \
-                     struct.pack(">B", functionCode) + \
-                     functionDataField
-                logging.debug("%s" % hexstr(ModbusPacket))
-                try:
-                  sock.send(ModbusPacket)
-                except socket.timeout:
-                  logging.exception("Sending Timed Out!")
-                except socket.error:
-                  logging.exception("Sending Failed!")
-                  sock.close()
-                  sock = create_connection(dest_ip, dest_port)
-                  logging.info("Try to Reconnect...")
-                else:
-                  logging.debug("Sent Packet: %s" % hexstr(ModbusPacket))
-                  print("Sent: %s" % hexstr(ModbusPacket))
+  length1 = 0
+  length2 = 6
+  unitID = 1
+
+  for transID1 in range(0,0xff):
+    for protoID1 in range(0,0xff):
+      for functionCode in range(0,0xff):
+        for functionData1 in range(0,0xff):
+          for functionData2 in range(0,0xff):
+            TotalModbusPacket =  ""
+            TotalModbusPacket += struct.pack(">H", transID1)
+            TotalModbusPacket += struct.pack(">H", protoID1)
+            TotalModbusPacket += struct.pack(">B", length1)
+            TotalModbusPacket += struct.pack(">B", length2)
+            TotalModbusPacket += struct.pack(">B", unitID)
+            TotalModbusPacket += struct.pack(">B", functionCode)
+            TotalModbusPacket += struct.pack(">H", functionData1)
+            TotalModbusPacket += struct.pack(">H", functionData2)
+            logging.debug("%s" % hexstr(TotalModbusPacket))
+            try:
+              sock.send(TotalModbusPacket)
+              print >>sys.stderr,'received: %s'% hexstr(sock.recv(1024))
+            except socket.timeout:
+              logging.exception("Sending Timed Out!")
+            except socket.error:
+              #logging.exception("Sending Failed!")
+              sock.close()
+              sock = create_connection(dest_ip, dest_port)
+              #logging.info("Try to Reconnect...")
+            else:
+              logging.debug("Sent Packet: %s" % hexstr(TotalModbusPacket))
+              print("Sent: %s" % hexstr(TotalModbusPacket))
 
 
 dumb_fuzzing(HOST)
