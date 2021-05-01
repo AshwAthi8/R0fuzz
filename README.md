@@ -2,8 +2,9 @@
 [![LICENSE](https://img.shields.io/badge/License-MIT-green)](https://github.com/AshwAthi8/Project-NetwoFuz/blob/master/LICENSE)
 
 ## Overview <!-- omit in toc -->
-
-![r0fuzz - logo](https://github.com/AshwAthi8/r0fuzz/blob/master/images/logo4.gif)
+<p align="center">
+<img src="images/logo4.gif" alt="r0fuzz-logo" />
+</p>
 
 Finding security flaws effectively and efficiently in Industrial Control Systems is of great importance as such systems are used in various important industries like nuclear power plants. *r0fuzz* aims to find security flaws in the hardware network protocols like MODBUS, DNP3 etc.
 
@@ -11,7 +12,6 @@ Finding security flaws effectively and efficiently in Industrial Control Systems
 
 - [1. Working](#1-working)
 - [2. Installation](#2-installation)
-  - [2.1. Dependencies](#2.1-dependencies)
 - [3. Usage](#3-usage)
 - [4. Features](#4-features)
 - [5. TODO](#5-todo)
@@ -19,7 +19,9 @@ Finding security flaws effectively and efficiently in Industrial Control Systems
 ## 1. Working
 
 Work flow of the tool -
- ![r0fuzz - daigram](https://github.com/AshwAthi8/r0fuzz/blob/master/images/our_fuzzer.png)
+ <p align="center">
+<img src="images/our_fuzzer.png" alt="r0fuzz-design" />
+</p>
 
 
 ## 2. Installation
@@ -39,33 +41,33 @@ pip3 install -r requirements.txt
 
 ## 3. Usage
 ```shell
-usage: r0fuzz.py [-h] -s SEED -t TARGET [-d] [-v]
+usage: r0fuzz.py [-h] -t TARGET [-v] {dumb,mutate,generate} ...
+
+A grammar based fuzzer for SCADA protocols
+
+positional arguments:
+  {dumb,mutate,generate}
+    dumb                Apply dumb fuzzing technique
+    mutate              Apply mutation based fuzzing technique
+    generate            Apply generation based fuzzing technique
 
 optional arguments:
   -h, --help            show this help message and exit
-  -s SEED, --seed SEED  sample input file
   -t TARGET, --target TARGET
                         target protocol
-  -d, --dumb            Dumb fuzz the target
   -v, --verbosity       Log level
 ```
 
- To run r0fuzz.py:
-```shell
-python3 r0fuzz.py -s <relative_path_of_seed_packet> -t <target_protocol> -vv
-```
 ## 4. Features
-- Basic Fuzzer using brute force approach
-- Smart Fuzzer
-  - Mutation based
+- Dumb-Fuzzing/Brute Force: Basic Fuzzer using brute force approach
+- Supports smart Fuzzing approaches:
   - Generation based
-- Current support
+- Current fuzzes:
   - MODBUS
   - DNP3
 
 
-## 5. TODO
-- Enhance the fuzzer.
-- Incorporate other protocols.
-
-
+## 5. TODO:
+- Implement mutation based approach
+- Enhance the fuzzer experience
+- Incorporate other protocols
