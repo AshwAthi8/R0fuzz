@@ -1,0 +1,25 @@
+2021-05-01 15:00:39,019 r0fuzz [DEBUG] [35m[+] Fuzzing modbus protocol[0m
+2021-05-01 15:53:28,266 r0fuzz [DEBUG] [35m[+] Fuzzing modbus protocol[0m
+2021-05-01 15:53:28,266 r0fuzz [DEBUG] [35m[+] The input file is at /home/dhr33ti/Desktop/work/fyp/r0fuzz/sample/ics.pcapng[0m
+2021-05-01 15:54:28,915 r0fuzz [DEBUG] [35m[+] Fuzzing modbus protocol[0m
+2021-05-01 15:54:28,915 r0fuzz [DEBUG] [35m[+] The input file is at /home/dhr33ti/Desktop/work/fyp/r0fuzz/sample/ics.pcapng[0m
+2021-05-01 16:02:40,629 r0fuzz [DEBUG] [35m[+] Fuzzing modbus protocol[0m
+2021-05-01 16:02:40,647 r0fuzz [DEBUG] [35m[+] The input file is at /home/dhr33ti/Desktop/work/fyp/r0fuzz/sample/packetgenerator.py[0m
+2021-05-01 16:02:40,648 r0fuzz [INFO] [32m[+] Generated fields[0m
+2021-05-01 16:02:53,022 r0fuzz [DEBUG] [35m[+] Fuzzing modbus protocol[0m
+2021-05-01 16:02:53,023 r0fuzz [DEBUG] [35m[+] The input file is at /home/dhr33ti/Desktop/work/fyp/r0fuzz/sample/ics.pcapng[0m
+2021-05-01 16:03:38,684 r0fuzz [INFO] [32m[+] Generated fields[0m
+2021-05-01 16:04:32,529 r0fuzz [DEBUG] [35m[+] Fuzzing modbus protocol[0m
+2021-05-01 16:04:32,529 r0fuzz [DEBUG] [35m[+] The input file is at /home/dhr33ti/Desktop/work/fyp/r0fuzz/sample/ics.pcapng[0m
+2021-05-01 16:05:17,820 r0fuzz [INFO] [32m[+] Generated fields[0m
+2021-05-01 16:07:54,503 r0fuzz [DEBUG] [35m[+] Fuzzing modbus protocol[0m
+2021-05-01 16:07:54,503 r0fuzz [DEBUG] [35m[+] The input file is at /home/dhr33ti/Desktop/work/fyp/r0fuzz/sample/ics.pcapng[0m
+2021-05-01 16:08:55,872 r0fuzz [DEBUG] [35m[+] Fuzzing modbus protocol[0m
+2021-05-01 16:08:55,873 r0fuzz [DEBUG] [35m[+] The input file is at /home/dhr33ti/Desktop/work/fyp/r0fuzz/sample/ics.pcapng[0m
+2021-05-01 16:09:40,598 r0fuzz [INFO] [32m[+] Generated fields[0m
+2021-05-01 16:09:57,797 r0fuzz [DEBUG] [35m[+] Fuzzing modbus protocol[0m
+2021-05-01 16:09:57,797 r0fuzz [DEBUG] [35m[+] The input file is at /home/dhr33ti/Desktop/work/fyp/r0fuzz/sample/ics.pcapng[0m
+2021-05-01 16:10:42,912 r0fuzz [INFO] [32m[+] Generated fields[0m
+2021-05-01 16:16:46,728 r0fuzz [DEBUG] [35m[+] Fuzzing modbus protocol[0m
+2021-05-01 16:16:46,728 r0fuzz [DEBUG] [35m[+] The input file is at /home/dhr33ti/Desktop/work/fyp/r0fuzz/sample/ics.pcapng[0m
+2021-05-01 16:17:29,024 r0fuzz [INFO] [32m[+] Generated fields[0m

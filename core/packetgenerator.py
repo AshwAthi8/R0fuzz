@@ -79,7 +79,7 @@ class PackGen(object):
 		pkt = Ether()/IP()/TCP(sport=self.src_port, dport = self.dest_port)/packet/Modbus()
 		wrpcap('test.pcap', pkt, append=True)
 
-	def send_packet(self):
+	def send_packet(self, packet):
 		sock = create_connection(self.HOST, self.dest_port)
 
 		packet = {
@@ -123,3 +123,9 @@ class PackGen(object):
 
 	def formPacket(self, fields_dict):
 		self.logger.debug("formPacket")
+
+		for i in range(0,50):
+			packet = {}
+			for key in fields_dict.keys():
+				packet[key] = fields_dict[key][i]
+		print(packet)
