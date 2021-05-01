@@ -2,6 +2,7 @@ from core.logger import get_logger
 
 from core.extract import Extractor
 from core.dumb_fuzzing import DFuzz
+from core.gen_fuzzing import GFuzz
 
 # Default imports 
 import argparse
@@ -26,6 +27,9 @@ class r0fuzz(object):
         elif self.command == "mutate":
             self.seed = os.path.join(os.getcwd(), args.seed)
             self.extractor = Extractor(self)
+
+        elif self.command == "generate":
+            self.gfuzz = GFuzz(self)
 
         if not self._sanity_check():
             logging.critical("[+] r0fuzz failed to init")
@@ -80,7 +84,7 @@ def main():
             sys.exit(-1)
     
     elif r0obj.command == "generate":
-        print("Generation based")
+        r0obj.gfuzz.fuzz()
     
     else:
         print("Invalid command")
