@@ -1,7 +1,9 @@
-# r0fuzz <!-- omit in toc -->
+# R0fuzz <!-- omit in toc -->
 [![LICENSE](https://img.shields.io/badge/License-MIT-green)](https://github.com/AshwAthi8/Project-NetwoFuz/blob/master/LICENSE)
 
 ## Overview <!-- omit in toc -->
+
+![r0fuzz - logo](https://github.com/AshwAthi8/r0fuzz/blob/master/images/logo4.gif)
 
 Finding security flaws effectively and efficiently in Industrial Control Systems is of great importance as such systems are used in various important industries like nuclear power plants. *r0fuzz* aims to find security flaws in the hardware network protocols like MODBUS, DNP3 etc.
 
@@ -11,13 +13,13 @@ Finding security flaws effectively and efficiently in Industrial Control Systems
 - [2. Installation](#2-installation)
   - [2.1. Dependencies](#2.1-dependencies)
 - [3. Usage](#3-usage)
-- [4. Results](#4-results)
-- [5. Features](#5-features)
-- [6. TODO](#6-todo)
+- [4. Features](#4-features)
+- [5. TODO](#5-todo)
 
 ## 1. Working
 
 Work flow of the tool -
+ ![r0fuzz - daigram](https://github.com/AshwAthi8/r0fuzz/blob/master/images/our_fuzzer.png)
 
 
 ## 2. Installation
@@ -52,8 +54,18 @@ optional arguments:
 ```shell
 python3 r0fuzz.py -s <relative_path_of_seed_packet> -t <target_protocol> -vv
 ```
-## 4. Results
-## 5. Features
-## 6. TODO
+## 4. Features
+- Basic Fuzzer using brute force approach
+- Smart Fuzzer
+  - Mutation based
+  - Generation based
+- Current support
+  - MODBUS
+  - DNP3
+
+
+## 5. TODO
+- Enhance the fuzzer.
+- Incorporate other protocols.
 
 
