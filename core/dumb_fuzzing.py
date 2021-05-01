@@ -33,6 +33,7 @@ class DFuzz(object):
             self.logger.error(msg)
         else:
             self.logger.info("[+] Connected to Server: %s" % dest_ip)
+        return sock
 
     def hexstr(self,s):
       t = ""
@@ -76,5 +77,5 @@ class DFuzz(object):
                   #logging.info("Try to Reconnect...")
                 else:
                   self.logger.debug("[+] Sent Packet: %s" % self.hexstr(TotalModbusPacket))
-                  print("Sent: %s" % hexstr(TotalModbusPacket))
+                  print("Sent: %s" % self.hexstr(TotalModbusPacket))
 
