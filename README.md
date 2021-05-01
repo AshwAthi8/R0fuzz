@@ -1,4 +1,4 @@
-# r0fuzz <!-- omit in toc -->
+# R0fuzz <!-- omit in toc -->
 [![LICENSE](https://img.shields.io/badge/License-MIT-green)](https://github.com/AshwAthi8/Project-NetwoFuz/blob/master/LICENSE)
 
 ## Overview <!-- omit in toc -->
