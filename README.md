@@ -19,6 +19,7 @@ Finding security flaws effectively and efficiently in Industrial Control Systems
 ## 1. Working
 
 Work flow of the tool -
+ ![r0fuzz - daigram](https://github.com/AshwAthi8/r0fuzz/blob/master/images/our_fuzzer.png)
 
 
 ## 2. Installation
@@ -62,7 +63,6 @@ python3 r0fuzz.py -s <relative_path_of_seed_packet> -t <target_protocol> -vv
   - MODBUS
   - DNP3
 
- ![r0fuzz - daigram](https://github.com/AshwAthi8/r0fuzz/blob/master/images/our_fuzzer.png)
 
 ## 5. TODO
 - Enhance the fuzzer.
