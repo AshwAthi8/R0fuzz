@@ -7,6 +7,7 @@ import struct
 import time
 import logging
 
+
 class DFuzz(object):
 
     def __init__(self, r0obj):
@@ -33,15 +34,15 @@ class DFuzz(object):
         else:
             self.logger.info("[+] Connected to Server: %s" % dest_ip)
 
-        return sock
-
-
-    def hexstr(self, s):
-        return '-'.join('%02x' % ord(c) for c in s)
-
-
+    def hexstr(self,s):
+      t = ""
+      for i in range(0,len(s)):
+        t = t + str(hex(s[i]))[2:] + '-'  
+      return t[:-1]
+      
     def dumb_fuzzing(self):
       sock = self.create_connection(self.HOST, self.dest_port)
+      print(type(sock))
       length1 = 0
       length2 = 6
       unitID = 1
@@ -51,18 +52,21 @@ class DFuzz(object):
           for functionCode in range(0,0xff):
             for functionData1 in range(0,0xff):
               for functionData2 in range(0,0xff):
-                TotalModbusPacket = struct.pack(">H", transID1)
-                TotalModbusPacket += struct.pack(">H", protoID1)
-                TotalModbusPacket += struct.pack(">B", length1)
-                TotalModbusPacket += struct.pack(">B", length2)
-                TotalModbusPacket += struct.pack(">B", unitID)
-                TotalModbusPacket += struct.pack(">B", functionCode)
-                TotalModbusPacket += struct.pack(">H", functionData1)
-                TotalModbusPacket += struct.pack(">H", functionData2)
-                self.logger.debug("[+] Packet sent: %s" % str(TotalModbusPacket))
+                TotalModbusPacket =  struct.pack(">H", transID1) + \
+                struct.pack(">H", protoID1) + \
+                struct.pack(">B", length1) + \
+                struct.pack(">B", length2) + \
+                struct.pack(">B", unitID) + \
+                struct.pack(">B", functionCode) + \
+                struct.pack(">H", functionData1) + \
+                struct.pack(">H", functionData2)
+                #print(str(TotalModbusPacket))
+                print(self.hexstr((TotalModbusPacket)))
+                self.logger.debug("[+] Packet sent: %s" % self.hexstr(TotalModbusPacket))
                 try:
+                  print("sseennnttt",TotalModbusPacket)
                   sock.send(TotalModbusPacket)
-                  print >>sys.stderr,'received: %s'% self.hexstr(sock.recv(1024).decode("utf-8"))
+                  #print >>sys.stderr,'received: %s'% self.hexstr(sock.recv(1024).decode("utf-8"))
                 except socket.timeout:
                   self.logger.warning("Sending Timed Out!")
                 except socket.error:
@@ -71,5 +75,6 @@ class DFuzz(object):
                   sock = self.create_connection(self.HOST, self.dest_port)
                   #logging.info("Try to Reconnect...")
                 else:
-                  self.logger.debug("[+] Sent Packet: %s" % self.hexstr(TotalModbusPacket.decode("utf-8")))
+                  self.logger.debug("[+] Sent Packet: %s" % self.hexstr(TotalModbusPacket))
+                  print("Sent: %s" % hexstr(TotalModbusPacket))
 
