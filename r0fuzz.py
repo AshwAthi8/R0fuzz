@@ -15,24 +15,21 @@ class r0fuzz(object):
     
     supported_protocol = ["modbus"]
 
-    def __init__(self, seed, protocol, dumbool, genbool, mutbool, log_level):
-        self.protocol = protocol
-        self.dumbool = dumbool
-        self.genbool = genbool
-        self.mutbool = mutbool       
-        self.log_level = log_level
-        self.seed = os.path.join(os.getcwd(), seed)
+    def __init__(self, args):
+        self.protocol = args.target
+        self.command = args.command
+        self.log_level = args.verbosity
+
+        if self.command == "dumb":
+            self.dfuzz = DFuzz(self)
+
+        elif self.command == "mutate":
+            self.seed = os.path.join(os.getcwd(), args.seed)
+            self.extractor = Extractor(self)
 
         if not self._sanity_check():
             logging.critical("[+] r0fuzz failed to init")
             sys.exit(-1)
-
-        if self.dumbool:
-            self.dfuzz = DFuzz(self)
-
-        if self.mutbool:
-            
-            self.extractor = Extractor(self)
 
     def _sanity_check(self) -> bool:
         """Verify the arguments passed"""
@@ -42,7 +39,7 @@ class r0fuzz(object):
             return False
         logging.debug("[+] Fuzzing %s protocol", self.protocol)
 
-        if self.mutbool==True:
+        if self.command == "mutate":
             if not os.path.isfile(self.seed):
                 logging.error("[-] The seed file is not found at %s", self.seed)
                 return False
@@ -57,27 +54,36 @@ def main():
     cprint(figlet_format('r0fuzz', font='starwars'),'yellow', attrs=['bold'])
 
     parser = argparse.ArgumentParser(description="A grammar based fuzzer for SCADA protocols")
+    subparser = parser.add_subparsers(dest='command')
+    dumb = subparser.add_parser('dumb', help = "Apply dumb fuzzing technique")
+    mutate = subparser.add_parser('mutate', help = "Apply mutation based fuzzing technique")
+    generate = subparser.add_parser('generate', help = "Apply generation based fuzzing technique")
 
-    parser.add_argument("-s", "--seed", help="sample input file", type=str, required=True)
     parser.add_argument("-t", "--target", help="target protocol", type=str, required=True)
-    parser.add_argument("-m", "--mutate", help="Apply mutation based method", action="store_true")
-    parser.add_argument("-g", "--generate", help="Apply generation based method", action="store_true")
-    parser.add_argument("-d", "--dumb", help="Dumb fuzz the target", action="store_true")
     parser.add_argument("-v", "--verbosity", help="Log level", action="count")
+    
+    mutate.add_argument("-s", "--seed", help="sample input file", type=str, required=True)
+
     args = parser.parse_args()
 
     logging = get_logger("r0fuzz", args.verbosity)
 
-    r0obj = r0fuzz(args.seed, args.target, args.dumb, args.generate, args.mutate, args.verbosity)
+    r0obj = r0fuzz(args)
     
-    if r0obj.mutbool:
+    if r0obj.command == "mutate":
         r0obj.extractor.generate_fields()
         logging.info('[+] Generated fields')
 
-    if r0obj.dumbool:
+    elif r0obj.command == "dumb":
         if not r0obj.dfuzz.dumb_fuzzing():
             logging.error("[-] Failed to dumb fuzz the target")
             sys.exit(-1)
+    
+    elif r0obj.command == "generate":
+        print("Generation based")
+    
+    else:
+        print("Invalid command")
     
 if __name__ == "__main__":
     logging = None
