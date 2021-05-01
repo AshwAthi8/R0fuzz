@@ -1,6 +1,7 @@
 from core.logger import get_logger
 
 from core.extract import Extractor
+from core.packetgenerator import PackGen
 from core.dumb_fuzzing import DFuzz
 from core.gen_fuzzing import GFuzz
 
@@ -27,6 +28,7 @@ class r0fuzz(object):
         elif self.command == "mutate":
             self.seed = os.path.join(os.getcwd(), args.seed)
             self.extractor = Extractor(self)
+            self.packgen = PackGen(self)
 
         elif self.command == "generate":
             self.gfuzz = GFuzz(self)
@@ -75,7 +77,8 @@ def main():
     r0obj = r0fuzz(args)
     
     if r0obj.command == "mutate":
-        r0obj.extractor.generate_fields()
+        extracted_fields = r0obj.extractor.generate_fields()
+        r0obj.packgen.formPacket(extracted_fields)
         logging.info('[+] Generated fields')
 
     elif r0obj.command == "dumb":
