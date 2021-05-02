@@ -27,7 +27,7 @@ class Extractor(object):
         fields_dic = {"transaction_id":[],
             "proc_id":[],
             "length1":[],
-            "length2";[],
+            "length2":[],
             "Unit_id":[],
             "func_code":[],
             "funcdata1":[],
