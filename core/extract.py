@@ -26,22 +26,24 @@ class Extractor(object):
         c = 0
         fields_dic = {"transaction_id":[],
             "proc_id":[],
-            "length":[],
+            "length1":[],
+            "length2";[],
             "Unit_id":[],
             "func_code":[],
-            "count":[],
-            "reg_values":[]}
+            "funcdata1":[],
+            "funcdata2":[]}
         for p in pac:
             if (p.haslayer("TCP") and p[self.layer].sport == self.PORT ):
                 field_value = getattr(p[self.layer], self.field)
                 hex_val = binascii.hexlify(field_value)
                 fields_dic["transaction_id"].append(hex_val[:4])
                 fields_dic["proc_id"].append(hex_val[4:8])
-                fields_dic["length"].append(hex_val[8:12])
+                fields_dic["length1"].append(hex_val[8:10])
+                fields_dic["length2"].append(hex_val[10:12])
                 fields_dic["Unit_id"].append(hex_val[12:14])
                 fields_dic["func_code"].append(hex_val[14:16])
-                fields_dic["count"].append(hex_val[16:18])
-                fields_dic["reg_values"].append(hex_val[18:])
+                fields_dic["funcdata1"].append(hex_val[16:20])
+                fields_dic["funcdata2"].append(hex_val[20:])
             '''c=c+1
             print("read ",c)
             if(c==10):
