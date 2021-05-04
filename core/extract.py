@@ -24,26 +24,30 @@ class Extractor(object):
         """
 
         c = 0
-        fields_dic = {"transaction_id":[],
-            "proc_id":[],
+        fields_dic = {"transID1":[],
+            "transID2":[],
+            "protoID1":[],
+            "protoID2":[],
             "length1":[],
             "length2":[],
-            "Unit_id":[],
-            "func_code":[],
-            "funcdata1":[],
-            "funcdata2":[]}
+            "unitID":[],
+            "functionCode":[],
+            "functionData1":[],
+            "functionData2":[]}
         for p in pac:
             if (p.haslayer("TCP") and p[self.layer].sport == self.PORT ):
                 field_value = getattr(p[self.layer], self.field)
                 hex_val = binascii.hexlify(field_value)
-                fields_dic["transaction_id"].append(hex_val[:4])
-                fields_dic["proc_id"].append(hex_val[4:8])
+                fields_dic["transID1"].append(hex_val[:2])
+                fields_dic["transID2"].append(hex_val[2:4])
+                fields_dic["protoID1"].append(hex_val[4:6])
+                fields_dic["protoID2"].append(hex_val[6:8])
                 fields_dic["length1"].append(hex_val[8:10])
                 fields_dic["length2"].append(hex_val[10:12])
-                fields_dic["Unit_id"].append(hex_val[12:14])
-                fields_dic["func_code"].append(hex_val[14:16])
-                fields_dic["funcdata1"].append(hex_val[16:20])
-                fields_dic["funcdata2"].append(hex_val[20:])
+                fields_dic["unitID"].append(hex_val[12:14])
+                fields_dic["functionCode"].append(hex_val[14:16])
+                fields_dic["functionData1"].append(hex_val[16:20])
+                fields_dic["functionData2"].append(hex_val[20:])
             '''c=c+1
             print("read ",c)
             if(c==10):

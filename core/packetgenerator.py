@@ -80,20 +80,7 @@ class PackGen(object):
 		wrpcap('test.pcap', pkt, append=True)
 
 	def send_packet(self, packet):
-		sock = create_connection(self.HOST, self.dest_port)
-
-		packet = {
-			'transID1' : 0x0,
-			'transID2' : 0xc,
-			'protoID1' : 0x0,
-			'protoID2' : 0x0,
-			'length1' : 0x0,
-			'length2' : 0x6,
-			'unitID' : 0x0,
-			'functionCode' : 0x1, 
-			'functionData1' : 0x54,
-			'functionData2' : 0x9
-		}
+		sock = self.create_connection(self.dest_port)
 
 		for functionCode in [0x10] : # Fuzzing specific parameters
 			for functionData1 in [0x21]:
@@ -103,20 +90,20 @@ class PackGen(object):
 					packet['functionData1'] = functionData1
 					packet['functionData2'] = functionData2
 
-					ModbusPacket = make_packet(packet) 
+					ModbusPacket = self.make_packet(packet) 
 					#AddToPCAP(ModbusPacket)
 					#AddToPCAP(RespPacket)
 					try:
 						sock.send(ModbusPacket)
 					except socket.timeout:
-						self.logger.exception("Sending Timed Out!")
+						self.logger.error("Sending Timed Out!")
 					except socket.error:
-						#self.logger.exception("Sending Failed!")
+						#self.logger.error("Sending Failed!")
 						sock.close()
 						sock = create_connection(self.HOST, self.dest_port)
 						#self.logger.info("Try to Reconnect...")
 					else:
-						self.self.logger.debug("[+] Sent Packet: %s" % hexstr(ModbusPacket))
+						self.logger.debug("[+] Sent Packet: %s" % hexstr(ModbusPacket))
 						print("Sent: %s" % hexstr(ModbusPacket))
 						RespPacket = sock.recv(1024)
 						print >>sys.stderr,'received: %s'% hexstr(RespPacket)
@@ -129,3 +116,4 @@ class PackGen(object):
 			for key in fields_dict.keys():
 				packet[key] = fields_dict[key][i]
 		print(packet)
+		self.send_packet(packet)
