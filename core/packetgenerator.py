@@ -35,7 +35,7 @@ class PackGen(object):
 		self.dest_port = 5020
 		self.verbosity = self.r0obj.log_level
 	
-		self.logger = get_logger("Packgen", self.verbosity)
+		self.logger = get_logger("PackGen", self.verbosity)
 
 	def create_connection(self, port):
 		try:
@@ -79,35 +79,32 @@ class PackGen(object):
 		pkt = Ether()/IP()/TCP(sport=self.src_port, dport = self.dest_port)/packet/Modbus()
 		wrpcap('test.pcap', pkt, append=True)
 
-	def send_packet(self, packet):
+	def send_packet(self, packet):		
+		self.logger.debug("send_packet")
+
 		sock = self.create_connection(self.dest_port)
 
-		for functionCode in [0x10] : # Fuzzing specific parameters
-			for functionData1 in [0x21]:
-				for functionData2 in [65535]:
-
-					packet['functionCode'] = functionCode
-					packet['functionData1'] = functionData1
-					packet['functionData2'] = functionData2
-
-					ModbusPacket = self.make_packet(packet) 
-					#AddToPCAP(ModbusPacket)
-					#AddToPCAP(RespPacket)
-					try:
-						sock.send(ModbusPacket)
-					except socket.timeout:
-						self.logger.error("Sending Timed Out!")
-					except socket.error:
-						#self.logger.error("Sending Failed!")
-						sock.close()
-						sock = create_connection(self.HOST, self.dest_port)
-						#self.logger.info("Try to Reconnect...")
-					else:
-						self.logger.debug("[+] Sent Packet: %s" % hexstr(ModbusPacket))
-						print("Sent: %s" % hexstr(ModbusPacket))
-						RespPacket = sock.recv(1024)
-						print >>sys.stderr,'received: %s'% hexstr(RespPacket)
-
+		ModbusPacket = self.make_packet(packet) 
+		#AddToPCAP(ModbusPacket)
+		#AddToPCAP(RespPacket)
+		try:
+			sock.send(ModbusPacket)
+		except socket.timeout:
+			self.logger.error("Sending Timed Out!")
+			return
+		except socket.error:
+			#self.logger.error("Sending Failed!")
+			sock.close()
+			sock = create_connection(self.HOST, self.dest_port)
+			#self.logger.info("Try to Reconnect...")
+			return
+		else:
+			self.logger.debug("[+] Sent Packet: %s" % hexstr(ModbusPacket))
+			print("Sent: %s" % hexstr(ModbusPacket))
+			RespPacket = sock.recv(1024)
+			print >>sys.stderr,'received: %s'% hexstr(RespPacket)
+			return
+		
 	def formPacket(self, fields_dict):
 		self.logger.debug("formPacket")
 
@@ -115,5 +112,5 @@ class PackGen(object):
 			packet = {}
 			for key in fields_dict.keys():
 				packet[key] = fields_dict[key][i]
-		print(packet)
-		self.send_packet(packet)
+				self.send_packet(packet)
+				print(packet)
