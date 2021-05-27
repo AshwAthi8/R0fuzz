@@ -1,5 +1,6 @@
 from core.logger import get_logger
 
+import random
 import socket
 import sys	
 from types import *
@@ -8,13 +9,6 @@ import time
 import logging
 import pickle
 from scapy.all import *
-
-'''FORMAT = ('%(asctime)-15s %(threadName)-15s'
-' %(levelname)-8s %(module)-15s:%(lineno)-8s %(message)s')
-
-logging.basicConfig(format=FORMAT)
-log = logging.getLogger()
-log.setLevel(logging.DEBUG)'''
 
 class Modbus(Packet):
 	name = "Modbus/tcp"
@@ -93,7 +87,7 @@ class PackGen(object):
 			self.logger.error("Sending Timed Out!")
 			return
 		except socket.error:
-			#self.logger.error("Sending Failed!")
+			self.logger.error("Sending Failed!")
 			sock.close()
 			sock = create_connection(self.HOST, self.dest_port)
 			#self.logger.info("Try to Reconnect...")
@@ -104,13 +98,61 @@ class PackGen(object):
 			RespPacket = sock.recv(1024)
 			print >>sys.stderr,'received: %s'% hexstr(RespPacket)
 			return
-		
+
+	def add(self, packet):
+		rand =	print(random.randint(0,len(packet.keys())))
+		rand_key = packet.keys()[rand]
+		if packet[rand_key] == 255:
+			packet[rand_key] = 0
+		else:
+			packet[rand_key] +=1
+		return packet
+
+	def sub(self, packet):
+		rand =	print(random.randint(0,len(packet.keys())))
+		rand_key = packet.keys()[rand]
+		if packet[rand_key] == 0:
+			packet[rand_key] = 255
+		else:
+			packet[rand_key] -=1
+		return packet
+
+	def shift(self, packet):
+		rand1 =	print(random.randint(0,len(packet.keys())))
+		rand_key = packet.keys()[rand1]
+		packet[rand_key] = packet[rand_key] >> 1 
+		return packet	
+
+	def subs(self, packet):
+		rand =	print(random.randint(0,len(packet.keys())))
+		replace = print(random.randint(0, 255))
+		rand_key = packet.keys()[rand]
+		if replace != packet[rand_key]:
+			packet[rand_key] = replace
+		return packet	
+
+	def mutate(self, packet):		
+		rand1 =	print(random.randint(0,4))
+		if rand1==1:
+			return self.add(packet)
+		elif rand == 2:
+			return self.sub(packet)
+		elif rand == 3:
+			return self.shift(packet)
+		else:
+			return self.substitute(packet)
+
 	def formPacket(self, fields_dict):
 		self.logger.debug("formPacket")
-
-		for i in range(0,50):
+		for i in range(50):
 			packet = {}
+			print(fields_dict.keys())
 			for key in fields_dict.keys():
 				packet[key] = fields_dict[key][i]
+			print(packet)
+			self.send_packet(packet)
+
+			while(1):
+				self.mutate(packet)
 				self.send_packet(packet)
-				print(packet)
+
