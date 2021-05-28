@@ -38,16 +38,23 @@ class Extractor(object):
             if (p.haslayer("TCP") and p[self.layer].sport == self.PORT ):
                 field_value = getattr(p[self.layer], self.field)
                 hex_val = binascii.hexlify(field_value)
-                fields_dic["transID1"].append(hex_val[:2])
-                fields_dic["transID2"].append(hex_val[2:4])
-                fields_dic["protoID1"].append(hex_val[4:6])
-                fields_dic["protoID2"].append(hex_val[6:8])
-                fields_dic["length1"].append(hex_val[8:10])
-                fields_dic["length2"].append(hex_val[10:12])
-                fields_dic["unitID"].append(hex_val[12:14])
-                fields_dic["functionCode"].append(hex_val[14:16])
-                fields_dic["functionData1"].append(hex_val[16:20])
-                fields_dic["functionData2"].append(hex_val[20:])
+                w = len(hex_val)
+                #print(hex_val,w,(21-w%21))
+                if(w<21):
+                    hex_val = hex_val + (21-w%21)*b'0'
+                else:
+                    continue
+                #print(hex_val)
+                fields_dic["transID1"].append(int(hex_val[:2],16))
+                fields_dic["transID2"].append(int(hex_val[2:4],16))
+                fields_dic["protoID1"].append(int(hex_val[4:6],16))
+                fields_dic["protoID2"].append(int(hex_val[6:8],16))
+                fields_dic["length1"].append(int(hex_val[8:10],16))
+                fields_dic["length2"].append(int(hex_val[10:12],16))
+                fields_dic["unitID"].append(int(hex_val[12:14],16))
+                fields_dic["functionCode"].append(int(hex_val[14:16],16))
+                fields_dic["functionData1"].append(int(hex_val[16:20],16))
+                fields_dic["functionData2"].append(int(hex_val[20:],16))
             '''c=c+1
             print("read ",c)
             if(c==10):

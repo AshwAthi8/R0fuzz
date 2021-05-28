@@ -54,7 +54,7 @@ class PackGen(object):
 
 	def make_packet(self, packet):
 
-		TotalModbusPacket =  ""
+		TotalModbusPacket =  b''
 		TotalModbusPacket += struct.pack(">B", packet['transID1'])
 		TotalModbusPacket += struct.pack(">B", packet['transID2'])
 		TotalModbusPacket += struct.pack(">B", packet['protoID1'])
@@ -93,7 +93,7 @@ class PackGen(object):
 			self.logger.debug("[+] Sent Packet: %s" % hexstr(ModbusPacket))
 			print("Sent: %s" % hexstr(ModbusPacket))
 			RespPacket = sock.recv(1024)
-			print >>sys.stderr,'received: %s'% hexstr(RespPacket)
+			print(sys.stderr,'received: %s'% hexstr(RespPacket))
 		return
 
 	def add(self, packet):
