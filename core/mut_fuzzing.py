@@ -34,8 +34,8 @@ class PackGen(object):
 	def create_connection(self, port):
 		try:
 			sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		except socket.error as msg:sys.stderr.write("[ERROR] %s\n" % msg[1])
-		sys.exit(1)
+		except socket.error as msg:
+			sys.stderr.write("[ERROR] %s\n" % msg[1])
 		try:
 			#sock.bind((HOST,src_port))
 			sock.settimeout(0.5)
@@ -85,19 +85,16 @@ class PackGen(object):
 			sock.send(ModbusPacket)
 		except socket.timeout:
 			self.logger.error("Sending Timed Out!")
-			return
 		except socket.error:
 			self.logger.error("Sending Failed!")
 			sock.close()
 			sock = create_connection(self.HOST, self.dest_port)
-			#self.logger.info("Try to Reconnect...")
-			return
 		else:
 			self.logger.debug("[+] Sent Packet: %s" % hexstr(ModbusPacket))
 			print("Sent: %s" % hexstr(ModbusPacket))
 			RespPacket = sock.recv(1024)
 			print >>sys.stderr,'received: %s'% hexstr(RespPacket)
-			return
+		return
 
 	def add(self, packet):
 		rand =	print(random.randint(0,len(packet.keys())))
@@ -151,8 +148,6 @@ class PackGen(object):
 				packet[key] = fields_dict[key][i]
 			print(packet)
 			self.send_packet(packet)
-
-			while(1):
-				self.mutate(packet)
-				self.send_packet(packet)
-
+		while(1):
+			self.mutate(packet)
+			self.send_packet(packet)

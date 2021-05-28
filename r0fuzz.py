@@ -1,7 +1,7 @@
 from core.logger import get_logger
 
 from core.extract import Extractor
-from core.packetgenerator import PackGen
+from core.mut_fuzzing import PackGen
 from core.dumb_fuzzing import DFuzz
 from core.gen_fuzzing import GFuzz
 
